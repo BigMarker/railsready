@@ -11,8 +11,8 @@
 shopt -s nocaseglob
 set -e
 
-ruby_version="1.9.3"
-ruby_version_string="1.9.3-p194"
+ruby_version="1.8.7"
+ruby_version_string="ree-1.8.7-2012.02"
 ruby_source_url="http://ftp.ruby-lang.org/pub/ruby/1.9/ruby-1.9.3-p194.tar.gz"
 ruby_source_tar_name="ruby-1.9.3-p194.tar.gz"
 ruby_source_dir_name="ruby-1.9.3-p194"
@@ -109,6 +109,9 @@ else
 fi
 echo -e "\n==> done running $distro specific commands..."
 
+# Install OpenSSL support
+rvm pkg install openssl
+
 #now that all the distro specific packages are installed lets get Ruby
 if [ $whichRuby -eq 1 ] ; then
   # Install Ruby
@@ -152,7 +155,7 @@ elif [ $whichRuby -eq 2 ] ; then
   echo "==> done..."
   echo -e "\n=> Installing Ruby $ruby_version_string (this will take a while)..."
   echo -e "=> More information about installing rubies can be found at http://rvm.beginrescueend.com/rubies/installing/ \n"
-  rvm install $ruby_version >> $log_file 2>&1
+  rvm install $ruby_version --with-openssl-dir=$HOME/.rvm/usr >> $log_file 2>&1
   echo -e "\n==> done..."
   echo -e "\n=> Using $ruby_version and setting it as default for new shells..."
   echo "=> More information about Rubies can be found at http://rvm.beginrescueend.com/rubies/default/"
@@ -181,18 +184,42 @@ elif [ $whichRuby -eq 2 ] ; then
 fi
 echo "==> done..."
 
-echo -e "\n=> Installing Bundler, Passenger and Rails..."
+echo -e "\n=> Creating your ~/.gemrc..."
+echo "---
+:verbose: true
+gem: --no-ri --no-rdoc
+:update_sources: true
+:sources:
+- http://gems.rubyforge.org
+:backtrace: false
+:bulk_threshold: 1000
+:benchmark: false" >> "$HOME/.gemrc"
+
+echo -e "\n=> Installing Bundler and Passenger..."
 if [ $whichRuby -eq 1 ] ; then
-  sudo gem install bundler passenger rails --no-ri --no-rdoc >> $log_file 2>&1
+  sudo gem install bundler passenger --no-ri --no-rdoc >> $log_file 2>&1
+  passenger-install-nginx-module >> $log_file 2>&1
 elif [ $whichRuby -eq 2 ] ; then
-  gem install bundler passenger rails --no-ri --no-rdoc >> $log_file 2>&1
+  gem install bundler passenger --no-ri --no-rdoc >> $log_file 2>&1
+  rvmsudo passenger-install-nginx-module >> $log_file 2>&1
 fi
+echo "==> done..."
+
+echo -e "\n=> Cloning BigMarker.com..."
+  mkdir -p ~/projects/bigmarker
+  git clone git@github.com:BigMarker/bigmarker.com.git bigmarker.com
+  source `rvm env --path -- ree-1.8.7@bigmarker`
+  cd bigmarker.com
+echo "==> done..."
+
+echo -e "\n=> Running bundle install..."
+  bundle install
 echo "==> done..."
 
 echo -e "\n#################################"
 echo    "### Installation is complete! ###"
 echo -e "#################################\n"
 
-echo -e "\n !!! logout and back in to access Ruby !!!\n"
+echo -e "\n !!! logout and back in to access your new development environment !!!\n"
 
-echo -e "\n Thanks!\n-Josh\n"
+echo -e "\n Thanks!\n"
