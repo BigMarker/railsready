@@ -45,10 +45,10 @@ if [[ $MACHTYPE = *linux* ]] ; then
   fi
 elif [[ $MACHTYPE = *darwin* ]] ; then
   distro="osx"
-    if [[ ! -f $(which gcc) ]]; then
-      echo -e "\nXCode/GCC must be installed in order to build required software. Note that XCode does not automatically do this, but you may have to go to the Preferences menu and install command line tools manually.\n"
-      exit 1
-    fi
+    #if [[ ! -f $(which gcc) ]]; then
+      #echo -e "\nXCode/GCC must be installed in order to build required software. Note that XCode does not automatically do this, but you may have to go to the Preferences menu and install command line tools manually.\n"
+      #exit 1
+    #fi
 else
   echo -e "\nRails Ready currently only supports Ubuntu and CentOS and OSX\n"
   exit 1
