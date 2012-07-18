@@ -11,7 +11,7 @@
 shopt -s nocaseglob
 set -e
 
-ruby_version="1.8.7"
+ruby_version="ree-1.8.7-2012.02"
 ruby_version_string="ree-1.8.7-2012.02"
 ruby_source_url="http://ftp.ruby-lang.org/pub/ruby/1.9/ruby-1.9.3-p194.tar.gz"
 ruby_source_tar_name="ruby-1.9.3-p194.tar.gz"
@@ -198,10 +198,10 @@ gem: --no-ri --no-rdoc
 echo -e "\n=> Installing Bundler and Passenger..."
 if [ $whichRuby -eq 1 ] ; then
   sudo gem install bundler passenger --no-ri --no-rdoc >> $log_file 2>&1
-  passenger-install-nginx-module >> $log_file 2>&1
+  passenger-install-apache2-module
 elif [ $whichRuby -eq 2 ] ; then
   gem install bundler passenger --no-ri --no-rdoc >> $log_file 2>&1
-  rvmsudo passenger-install-nginx-module >> $log_file 2>&1
+  rvmsudo passenger-install-apache2-module
 fi
 echo "==> done..."
 

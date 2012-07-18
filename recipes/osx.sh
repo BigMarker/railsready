@@ -51,4 +51,10 @@ echo "==> done..."
 # Install MySQL
 echo -e "\n=> Installing MySQL (this may take a while)..."
 brew install mysql >> $log_file 2>&1
+unset TMPDIR >> $log_file 2>&1
+mysql_install_db --verbose --user=`whoami` --basedir="$(brew --prefix mysql)" --datadir=/usr/local/var/mysql --tmpdir=/tmp >> $log_file 2>&1
+launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist >> $log_file 2>&1
+mkdir -p ~/Library/LaunchAgents >> $log_file 2>&1
+cp /usr/local/Cellar/mysql/5.5.25/homebrew.mxcl.mysql.plist ~/Library/LaunchAgents/ >> $log_file 2>&1
+mysql.server start
 echo "==> done..."
