@@ -43,4 +43,3 @@ rvmsudo passenger-install-nginx-module
 #
 ####Rails Ready now supports a "plugin" type system. The distro is detected and a corresponding "recipe" file is pulled down to run the distro specific setup steps. Check the recipes dir to see if your distro is supported. If you would like to add support for a system fork the repo, write a recipe, and submit a pull request. Take a look at recipes/ubuntu.sh for an idea of what to model your recipe after.
 
-If you use this or have any suggestions let me know joshfng@gmail.com or @joshfng on Twitter
