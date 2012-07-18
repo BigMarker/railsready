@@ -23,8 +23,8 @@ log_file=$8
 
 echo -e "\nInstalling OS X developer tools..."
 case `sw_vers | grep 'ProductVersion:' | cut -f 2` in                                                                     
-	*10.7* ) echo "downloading OS X developer tools"; wget https://github.com/downloads/kennethreitz/osx-gcc-installer/GCC-10.7-v2.pkg; sudo installer -pkg "./GCC-10.7-v2.pkg" -target /;;
-	*10.6* ) echo "downloading OS X developer tools"; wget https://github.com/downloads/kennethreitz/osx-gcc-installer/GCC-10.6.pkg; sudo installer -pkg "./GCC-10.6.pkg" -target /;;
+	*10.7* ) echo "downloading OS X developer tools"; curl -L -O http://github.com/downloads/kennethreitz/osx-gcc-installer/GCC-10.7-v2.pkg; sudo installer -pkg "./GCC-10.7-v2.pkg" -target /;;
+	*10.6* ) echo "downloading OS X developer tools"; curl -L -O http://github.com/downloads/kennethreitz/osx-gcc-installer/GCC-10.6.pkg; sudo installer -pkg "./GCC-10.6.pkg" -target /;;
 	* ) echo "Please upgrade your system to at least Snow Leopard 10.6!";;          
 esac
 echo "==> done..."
