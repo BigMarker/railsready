@@ -46,6 +46,8 @@ echo "==> done..."
 # Install imagemagick
 echo -e "\n=> Installing imagemagick (this may take a while)..."
 brew install imagemagick >> $log_file 2>&1
+sudo ln -s `which convert` /usr/bin/convert
+sudo ln -s `which identify` /usr/bin/identify
 echo "==> done..."
 
 # Install MySQL
